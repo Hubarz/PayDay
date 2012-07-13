@@ -50,7 +50,7 @@ public class moneyRewarder implements Runnable {
 			   if(g.useEssentials) {
 				   EssentialsInterface ei = new EssentialsInterface();
 				   if(!ei.isAfk(p.getPlayer())) doJob(p);
-			   } else doJob(p);
+			   } else if(!p.ignore()) doJob(p);
 		   }
 	}
 
