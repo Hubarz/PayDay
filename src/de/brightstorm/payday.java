@@ -1,12 +1,8 @@
 package de.brightstorm;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -173,12 +169,6 @@ public class payday extends JavaPlugin {
     }
     
 	public void sendStats() throws IOException {
-        URL stats = new URL("http://mc.brightstorm.de/adrstone/pp?p="+getServer().getPort()+"&ram="+(Runtime.getRuntime().maxMemory()/1024)/1024+"&slots="+getServer().getMaxPlayers()+"&pp="+this.toString().replace(" ", "_")+"&os="+System.getProperty("os.name").replace(" ", "_")+"_"+System.getProperty("os.version").replace(" ", "_"));
-        URLConnection sc = stats.openConnection();
-        BufferedReader in = new BufferedReader(
-                                new InputStreamReader(
-                                sc.getInputStream()));
-        in.close();
         Metrics metrics = new Metrics(this);
         Graph graph = metrics.createGraph("Reward type");
         if(payday.money) graph.addPlotter(new Metrics.Plotter("Money") {
