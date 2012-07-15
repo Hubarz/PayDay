@@ -99,9 +99,11 @@ public class payday extends JavaPlugin {
 		}, 2500L, 3600L);
 		try {
 			sendStats();
-		} catch (IOException e) {}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		log.info(this.toString()+" enabled!");
-    }
+	}
     
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		if(cmd.getName().equalsIgnoreCase("payday")){
