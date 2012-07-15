@@ -91,12 +91,12 @@ public class payday extends JavaPlugin {
 		getServer().getScheduler().scheduleSyncRepeatingTask(this,meter,0,g.interval);
 		Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(dies, new Runnable() {
 			   public void run() {
-			       if(g.tps<16.0) {
+			       if(g.tps<17.0) {
 			    	   log.warning("Your TPS rate is too low: "+g.tps);
 			    	   log.warning("If you get this warning frequently, you should try to reduce the servers load!");
 			       }
 			   }
-		}, 3600L, 3600L);
+		}, 2500L, 3600L);
 		try {
 			sendStats();
 		} catch (IOException e) {}
