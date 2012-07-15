@@ -40,12 +40,11 @@ public class payday extends JavaPlugin {
     		getConfig().addDefault("vip.amount", 50);
     		getConfig().addDefault("message", "You just got %a for being online %t minutes.");
     	}
-		getConfig().addDefault("use_vault", true);
-		getConfig().addDefault("reward_item", 264);
-		getConfig().addDefault("use_essentials", false);
-		saveConfig();
+	getConfig().addDefault("use_vault", true);
+	getConfig().addDefault("reward_item", 264);
+	getConfig().addDefault("use_essentials", false);
     	getConfig().set("version", Double.parseDouble(this.getDescription().getVersion()));
-		getConfig().options().copyDefaults(true);
+	getConfig().options().copyDefaults(true);
     	saveConfig();
     	g.useEssentials=getConfig().getBoolean("use_essentials");
     	if(g.useEssentials) {
