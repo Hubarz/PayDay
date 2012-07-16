@@ -1,5 +1,5 @@
 name: PayDay
-version: 1.5
+version: 1.4.1
 main: de.brightstorm.payday
 soft-depend: [Vault, Essentials]
 dev-url: http://dev.bukkit.org/server-mods/payday/
