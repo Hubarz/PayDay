@@ -40,11 +40,12 @@ public class payday extends JavaPlugin {
     		getConfig().addDefault("vip.amount", 50);
     		getConfig().addDefault("message", "You just got %a for being online %t minutes.");
     	}
-	getConfig().addDefault("use_vault", true);
-	getConfig().addDefault("reward_item", 264);
-	getConfig().addDefault("use_essentials", false);
-    	getConfig().set("version", Double.parseDouble(this.getDescription().getVersion()));
-	getConfig().options().copyDefaults(true);
+		getConfig().addDefault("use_vault", true);
+		getConfig().addDefault("reward_item", 264);
+		getConfig().addDefault("use_essentials", false);
+		saveConfig();
+    	getConfig().set("version",this.getDescription().getVersion());
+		getConfig().options().copyDefaults(true);
     	saveConfig();
     	g.useEssentials=getConfig().getBoolean("use_essentials");
     	if(g.useEssentials) {
@@ -91,19 +92,17 @@ public class payday extends JavaPlugin {
 		getServer().getScheduler().scheduleSyncRepeatingTask(this,meter,0,g.interval);
 		Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(dies, new Runnable() {
 			   public void run() {
-			       if(g.tps<17.0) {
+			       if(g.tps<16.0) {
 			    	   log.warning("Your TPS rate is too low: "+g.tps);
 			    	   log.warning("If you get this warning frequently, you should try to reduce the servers load!");
 			       }
 			   }
-		}, 2500L, 3600L);
+		}, 3600L, 3600L);
 		try {
 			sendStats();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		} catch (IOException e) {}
 		log.info(this.toString()+" enabled!");
-	}
+    }
     
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		if(cmd.getName().equalsIgnoreCase("payday")){
