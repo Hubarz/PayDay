@@ -1,7 +1,6 @@
 package de.brightstorm;
 
 public class g {
-	public static float tps;
 	public static int interval=40;
 	public static boolean useEssentials=false;
 	public static int paid=0;

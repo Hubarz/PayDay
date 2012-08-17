@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -14,6 +15,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -36,14 +38,16 @@ public class payday extends JavaPlugin {
     		getConfig().addDefault("groups", grouplist);
     		getConfig().addDefault("normal.time", 60);
     		getConfig().addDefault("normal.amount", 20);
+    		getConfig().addDefault("normal.interest", 0.5);
     		getConfig().addDefault("vip.time", 60);
     		getConfig().addDefault("vip.amount", 50);
-    		getConfig().addDefault("message", "You just got %a for being online %t minutes.");
+    		getConfig().addDefault("vip.interest", 2);
     	}
+    	getConfig().addDefault("message", "You just got %a for being online %t minutes.");
+    	getConfig().addDefault("paycheck-message", "Your next payday is in %t minutes.");
 		getConfig().addDefault("use_vault", true);
 		getConfig().addDefault("reward_item", 264);
 		getConfig().addDefault("use_essentials", false);
-		saveConfig();
     	getConfig().set("version",this.getDescription().getVersion());
 		getConfig().options().copyDefaults(true);
     	saveConfig();
@@ -60,7 +64,12 @@ public class payday extends JavaPlugin {
     	money = getConfig().getBoolean("use_vault");
     	if(money) {
     		if(!getServer().getPluginManager().isPluginEnabled("Vault")) {
-    			log.warning("Vault seemms to be not installed. Falling back to item reward...");
+    			log.warning("Vault seems to be not installed. Gonna disable myself...");
+    			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+    				   public void run() {
+    					   getServer().getPluginManager().disablePlugin(payday.dies);
+    				   }
+    			}, 60L);
     			money = false;
     		}
     	}
@@ -88,16 +97,6 @@ public class payday extends JavaPlugin {
 			itemRewarder rewarder = new itemRewarder();
 			Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, rewarder, 1200, 1200);
 		}
-		TPSmeter meter = new TPSmeter();
-		getServer().getScheduler().scheduleSyncRepeatingTask(this,meter,0,g.interval);
-		Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(dies, new Runnable() {
-			   public void run() {
-			       if(g.tps<16.0) {
-			    	   log.warning("Your TPS rate is too low: "+g.tps);
-			    	   log.warning("If you get this warning frequently, you should try to reduce the servers load!");
-			       }
-			   }
-		}, 3600L, 3600L);
 		try {
 			sendStats();
 		} catch (IOException e) {}
@@ -108,15 +107,14 @@ public class payday extends JavaPlugin {
 		if(cmd.getName().equalsIgnoreCase("payday")){
 			if(sender.hasPermission("payday.admincommand")) {
 				if(args.length==0) {
-					sender.sendMessage(ChatColor.RED+"-------------------------------------------------");
-					sender.sendMessage(ChatColor.RED+"--------------------PayDay Help-------------------");
-					sender.sendMessage(ChatColor.RED+"-------------------------------------------------");
+					sender.sendMessage(ChatColor.RED+"-----------------------------------------------------");
+					sender.sendMessage(ChatColor.RED+"--------------------"+ChatColor.BOLD+"PayDay Help"+ChatColor.RESET+ChatColor.RED+"---------------------");
+					sender.sendMessage(ChatColor.RED+"-----------------------------------------------------");
 					sender.sendMessage(ChatColor.RED+"/payday reset     | Deletes ALL user data!");
-					sender.sendMessage(ChatColor.RED+"/payday reload   | Reloads the config.yml");
-					sender.sendMessage(ChatColor.RED+"/payday tps         | Find out the servers tps rate");
-					sender.sendMessage(ChatColor.RED+"-------------------------------------------------");
-					sender.sendMessage(ChatColor.RED+"For more info visit http://dev.bukkit.org/server-mods/payday/");
-					sender.sendMessage(ChatColor.RED+"-------------------------------------------------");
+					sender.sendMessage(ChatColor.RED+"/payday reload    | Reloads the config.yml");
+					sender.sendMessage(ChatColor.RED+"-----------------------------------------------------");
+					sender.sendMessage(ChatColor.RED+""+ChatColor.ITALIC+"For more info visit http://dev.bukkit.org/server-mods/payday/");
+					sender.sendMessage(ChatColor.RED+"-----------------------------------------------------");
 					return true;
 				}
 				if(args[0].equalsIgnoreCase("reload")) {
@@ -135,18 +133,15 @@ public class payday extends JavaPlugin {
 						e.printStackTrace();
 					}
 					sender.sendMessage(ChatColor.DARK_GREEN+"users.yml has been cleared.");
-				} else if(args[0].equalsIgnoreCase("tps")) {
-					sender.sendMessage(ChatColor.GOLD+""+g.tps+" TPS ["+(20*(g.tps/100))+"%]");
 				} else {
-					sender.sendMessage(ChatColor.RED+"-------------------------------------------------");
-					sender.sendMessage(ChatColor.RED+"--------------------PayDay Help-------------------");
-					sender.sendMessage(ChatColor.RED+"-------------------------------------------------");
+					sender.sendMessage(ChatColor.RED+"-----------------------------------------------------");
+					sender.sendMessage(ChatColor.RED+"--------------------"+ChatColor.BOLD+"PayDay Help"+ChatColor.RESET+ChatColor.RED+"---------------------");
+					sender.sendMessage(ChatColor.RED+"-----------------------------------------------------");
 					sender.sendMessage(ChatColor.RED+"/payday reset     | Deletes ALL user data!");
-					sender.sendMessage(ChatColor.RED+"/payday reload   | Reloads the config.yml");
-					sender.sendMessage(ChatColor.RED+"/payday tps         | Find out the servers tps rate");
-					sender.sendMessage(ChatColor.RED+"-------------------------------------------------");
-					sender.sendMessage(ChatColor.RED+"For more info visit http://dev.bukkit.org/server-mods/payday/");
-					sender.sendMessage(ChatColor.RED+"-------------------------------------------------");
+					sender.sendMessage(ChatColor.RED+"/payday reload    | Reloads the config.yml");
+					sender.sendMessage(ChatColor.RED+"-----------------------------------------------------");
+					sender.sendMessage(ChatColor.RED+""+ChatColor.ITALIC+"For more info visit http://dev.bukkit.org/server-mods/payday/");
+					sender.sendMessage(ChatColor.RED+"-----------------------------------------------------");
 					return true;
 				}
 			} else {
@@ -154,11 +149,23 @@ public class payday extends JavaPlugin {
 			}
 			return true;
 		}
+		
+		if(cmd.getName().equalsIgnoreCase("paycheck")){
+			PDPlayer p = new PDPlayer((Player) sender);
+			p.findGroup();
+			if(p.ignore()) sender.sendMessage(ChatColor.RED+"You don't have permission!");
+			else {
+				String raw = payday.dies.getConfig().getString("paycheck-message");
+				String message = StringUtils.replace(raw, "%t", String.valueOf(payday.dies.getConfig().getInt(p.getGroup()+".time")-payday.users.getInt(p.getPlayer().getName())));
+				sender.sendMessage(ChatColor.BLUE+message);
+			}
+			return true;
+		}
 		return false; 
 	}
     
     public void onDisable() {
-    	Bukkit.getScheduler().cancelAllTasks();
+    	Bukkit.getScheduler().cancelTasks(this);
     	File userFile = new File(getDataFolder()+System.getProperty("file.separator")+"users.yml");
     	try {
 			users.save(userFile);

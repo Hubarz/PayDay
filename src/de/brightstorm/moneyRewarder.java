@@ -30,16 +30,18 @@ public class moneyRewarder implements Runnable {
 		   else payday.users.set(p.getPlayer().getName(), 0);
 		   String group = p.getGroup();
 		   if(payday.users.getInt(p.getPlayer().getName())>=payday.dies.getConfig().getInt(group+".time")) {
+			   double amount = payday.dies.getConfig().getDouble(group+".amount");
+			   amount+=(economy.getBalance(p.getPlayer().getName())/100)*payday.dies.getConfig().getDouble(group+".interest");
+			   amount=java.lang.Math.round( amount * 100 )/100.0;
 			   String raw = payday.dies.getConfig().getString("message");
-			   String ph1 = StringUtils.replace(raw, "%a", payday.dies.getConfig().getDouble(group+".amount")+" "+economy.currencyNamePlural());
+			   String ph1 = StringUtils.replace(raw, "%a", amount+" "+economy.currencyNamePlural());
 			   String message = StringUtils.replace(ph1, "%t", String.valueOf(payday.dies.getConfig().getInt(group+".time")));
-			   economy.depositPlayer(p.getPlayer().getName(), payday.dies.getConfig().getDouble(group+".amount"));
-			   g.paid+=payday.dies.getConfig().getDouble(group+".amount");
+			   economy.depositPlayer(p.getPlayer().getName(), amount);
+			   g.paid+=amount;
 			   payday.users.set(p.getPlayer().getName(), 0);
 			   p.getPlayer().sendMessage(ChatColor.BLUE+message);
-			   payday.log.info(p.getPlayer().getName()+" just got "+payday.dies.getConfig().getDouble(group+".amount")+" "+economy.currencyNamePlural()+" for being online "+payday.dies.getConfig().getInt(group+".time")+" minutes.");
+			   payday.log.info(p.getPlayer().getName()+" just got "+amount+" "+economy.currencyNamePlural()+" for being online "+payday.dies.getConfig().getInt(group+".time")+" minutes.");
 		   }
-
 	}
 	
 	@Override
