@@ -28,7 +28,8 @@ public class payday extends JavaPlugin {
 	public static Logger log;
 	public static boolean money=true;
     
-    public void onEnable() {
+    @SuppressWarnings("unchecked")
+	public void onEnable() {
     	dies = this;
     	log = this.getLogger();
     	if(!getConfig().contains("groups")) {
@@ -60,6 +61,7 @@ public class payday extends JavaPlugin {
     			g.useEssentials=false;
     		}
     	}
+    	groups = (List<String>) getConfig().getList("groups");
     	File userFile = new File(getDataFolder()+System.getProperty("file.separator")+"users.yml");
     	money = getConfig().getBoolean("use_vault");
     	if(money) {
