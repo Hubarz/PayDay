@@ -1,8 +1,7 @@
 name: PayDay
-version: 1.5.1
+version: 2.0
 main: de.brightstorm.payday
 softdepend: [Vault, Essentials]
-dev-url: http://dev.bukkit.org/server-mods/payday/
 commands:
    payday:
       permission: payday.admincommand
