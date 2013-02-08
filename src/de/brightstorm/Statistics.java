@@ -11,7 +11,7 @@ public class Statistics {
     public Statistics(payday p) throws IOException {
         metrics = new Metrics(p);
         Metrics.Graph graph = metrics.createGraph("Reward type");
-        if (payday.conf.money) graph.addPlotter(new Metrics.Plotter("Money")
+        if (payday.conf.isMoney()) graph.addPlotter(new Metrics.Plotter("Money")
         {
             public int getValue() {
                 return 1;

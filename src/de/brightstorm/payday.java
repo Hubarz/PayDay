@@ -5,11 +5,14 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import de.brightstorm.config.Config;
+import de.brightstorm.config.ConfigReader;
+
 @SuppressWarnings("unused")
 public class payday extends JavaPlugin {
 	public static Logger log;
+	private ConfigReader confReader;
 	public static Config conf;
-	public static FileConfiguration users;
 	
 	private Statistics stats;
 	private int exceptionCount=0;
@@ -19,10 +22,11 @@ public class payday extends JavaPlugin {
 		try {
 			log = getLogger();
 			
-			conf = new Config(this);
+			confReader = new ConfigReader(this);
+			conf = confReader.parse();
 			stats = new Statistics(this);
 			
-			if(conf.autoUpdate) updater=new Updater(this, "payday", this.getFile(), Updater.UpdateType.DEFAULT, true);
+			if(conf.isAutoUpdate()) updater=new Updater(this, "payday", this.getFile(), Updater.UpdateType.DEFAULT, true);
 			
 			log.info(this.toString()+" enabled!");
 		} catch (java.lang.Exception e) {
