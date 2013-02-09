@@ -12,7 +12,8 @@ public class ConfigReader {
 		File configFile= new File(plugin.getDataFolder() + System.getProperty("file.separator") + "config.json");
 		if(!configFile.exists()) {
 			plugin.getLogger().info("config.json not found. Creating a new one...");
-			new ConfigWriter(plugin).write();
+			ConfigWriter cw = new ConfigWriter(plugin);
+			cw.write();
 		}
 		confFile = new FileReader(configFile);
 		config = new Gson();

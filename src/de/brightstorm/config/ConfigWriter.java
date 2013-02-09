@@ -3,6 +3,7 @@ package de.brightstorm.config;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 
 import org.bukkit.craftbukkit.libs.com.google.gson.GsonBuilder;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonIOException;
@@ -19,6 +20,8 @@ public class ConfigWriter {
 	
 	public void write() throws JsonIOException, IOException {
 		Config c = new Config();
-		gson.create().toJson(c, Config.class, new FileWriter(config));
+		Writer w = new FileWriter(config);
+		gson.create().toJson(c, Config.class, w);
+		w.close();
 	}
 }
