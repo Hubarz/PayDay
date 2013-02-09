@@ -9,6 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import de.brightstorm.config.Config;
 import de.brightstorm.config.ConfigReader;
+import de.brightstorm.config.UserDB;
 import de.brightstorm.rewarders.ItemRewarder;
 import de.brightstorm.rewarders.MoneyRewarder;
 
@@ -17,7 +18,7 @@ public class payday extends JavaPlugin {
 	public static Logger log;
 	private ConfigReader confReader;
 	public static Config conf;
-	public static Map<String, Integer> users;
+	public static UserDB users;
 	
 	private Rewarder rewarder;
 	private Statistics stats;
@@ -32,7 +33,7 @@ public class payday extends JavaPlugin {
 			conf = confReader.parse();
 			stats = new Statistics(this);
 			
-			users = new HashMap<String, Integer>();
+			users = new UserDB(this);
 			
 			if(conf.isAutoUpdate()) updater=new Updater(this, "payday", this.getFile(), Updater.UpdateType.NO_VERSION_CHECK, true);
 			

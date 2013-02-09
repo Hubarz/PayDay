@@ -23,11 +23,11 @@ public abstract class Rewarder implements Runnable {
 				if(payday.conf.isUseEssentials()) if(!ei.isAfk(p)) check(pp);
 				else check(pp);
 			}
+			payday.users.increase(pp.getP().getName());
 		}
 	}
 
 	private void check(PDPlayer pp) {
-		if(!payday.users.containsKey(pp.getP().getName())) payday.users.put(pp.getP().getName(), new Integer(1));
 		if(payday.users.get(pp.getP().getName())>=pp.getGroup().getTime() && !(payday.conf.getWorldRestriction().contains(pp.getP().getLocation().getWorld().getName())))
 			pay(pp);
 	}
