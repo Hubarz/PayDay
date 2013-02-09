@@ -1,10 +1,18 @@
 package de.brightstorm.config;
 
-public class group {
+public class group implements Comparable<group> {
 	private String name;
 	private short order;
 	private int time;
 	private double amount;
+	private double limit;
+	
+	public double getLimit() {
+		return limit;
+	}
+	public void setLimit(double limit) {
+		this.limit = limit;
+	}
 	private float interest;
 	
 	public String getName() {
@@ -36,5 +44,9 @@ public class group {
 	}
 	public void setInterest(float interest) {
 		this.interest = interest;
+	}
+	@Override
+	public int compareTo(group o) {
+		return (o.getOrder()-order);
 	}
 }

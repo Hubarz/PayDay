@@ -1,6 +1,7 @@
 package de.brightstorm.config;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -82,6 +83,7 @@ public class Config {
 
 	public void setGroups(List<group> groups) {
 		this.groups = groups;
+		Collections.sort(this.groups);
 	}
 
 	public List<String> getWorldRestriction() {
