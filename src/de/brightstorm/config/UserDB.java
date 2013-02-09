@@ -23,24 +23,24 @@ public class UserDB {
 	public UserDB(Plugin pl) throws IOException {
 		users = new HashMap<String, Integer>();
 		file = new File(pl.getDataFolder() + System.getProperty("file.separator") + "users.json");
-		if(!file.exists()) file.createNewFile();
 		gson = new Gson();
-		r = new FileReader(file);
-		users = gson.fromJson(r, users.getClass());
-		r.close();
-		
+		if(file.exists()) {
+			r = new FileReader(file);
+			users = gson.fromJson(r, users.getClass());
+			r.close();
+		} else 	file.createNewFile();
 		w = new FileWriter(file);
 	}
 	
 	public void increase(String name) {
 		if(users.containsKey(name)) users.put(name, new Integer(1));
 		else users.put(name, users.get(name)+1);
-		gson.toJson(users, users.getClass(), w);
+
 	}
 	
 	public int get(String name) {
-		if(users.containsKey(name)) users.put(name, new Integer(1));
-		return users.get(name);
+		if(!users.containsKey(name)) users.put(name, new Integer(1));
+		return (int)users.get(name);
 	}
 	
 	public void reset(String name) {
@@ -48,6 +48,7 @@ public class UserDB {
 	}
 	
 	public void save() throws IOException {
+		w = new FileWriter(file);
 		gson.toJson(users, users.getClass(), w);
 		w.flush();
 	}

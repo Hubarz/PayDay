@@ -1,5 +1,6 @@
 package de.brightstorm;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -42,6 +43,17 @@ public class payday extends JavaPlugin {
 			
 			Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, rewarder, 1200L, 1200L);
 			
+			Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+					@Override
+					public void run() {
+						try {
+							payday.users.save();
+						} catch (IOException e) {
+							ExceptionHandler.report(e);
+						}
+					} 
+			}, 5000, 5000);
+			
 			log.info(this.toString()+" enabled!");
 		} catch (java.lang.Exception e) {
 			ExceptionHandler.report(e);
@@ -49,7 +61,11 @@ public class payday extends JavaPlugin {
 	}
 	
 	public void onDisable() {
-		
+		try {
+			users.save();
+		} catch (Exception e) {
+			ExceptionHandler.report(e);
+		}
 		log.info(this.toString()+" disabled!");
 	}
 }
