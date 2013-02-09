@@ -6,7 +6,7 @@ import org.bukkit.Color;
 import org.bukkit.entity.Player;
 import de.brightstorm.rewarders.EssentialsInterface;
 
-public abstract class Rewarder {
+public abstract class Rewarder implements Runnable {
 	private EssentialsInterface ei;
 	
 	public Rewarder() {
