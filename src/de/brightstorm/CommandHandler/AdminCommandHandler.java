@@ -14,7 +14,8 @@ public class AdminCommandHandler implements CommandExecutor {
 		if(c=="payday") {
 			if(p.hasPermission("payday.admincommand")) {
 				if(arg.length==0 || arg[0]=="help") help(p);
-				else if(arg[0]=="reload") payday.
+				else if(arg[0]=="reload") payday.reload();
+				else if(arg[0]=="reset") payday.users.reset();
 			} else warn(p);
 			return true;
 		}

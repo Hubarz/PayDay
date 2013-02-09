@@ -19,7 +19,6 @@ import de.brightstorm.rewarders.MoneyRewarder;
 @SuppressWarnings("unused")
 public class payday extends JavaPlugin {
 	public static Logger log;
-	private ConfigReader confReader;
 	public static Config conf;
 	public static UserDB users;
 	
@@ -27,6 +26,7 @@ public class payday extends JavaPlugin {
 	private Statistics stats;
 	private int exceptionCount=0;
 	private Updater updater;
+	private static ConfigReader confReader;
 	
 	public void onEnable() {
 		try {
@@ -72,5 +72,9 @@ public class payday extends JavaPlugin {
 			ExceptionHandler.report(e);
 		}
 		log.info(this.toString()+" disabled!");
+	}
+	
+	public static void reload() {
+		conf = confReader.parse();
 	}
 }

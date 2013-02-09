@@ -52,4 +52,8 @@ public class UserDB {
 		gson.toJson(users, users.getClass(), w);
 		w.flush();
 	}
+	
+	public void reset() {
+		users.clear();
+	}
 }
