@@ -15,12 +15,13 @@ public class ExceptionHandler {
 		log.severe("Please report this at the Bukkit Dev page");
 		log.severe("-----------------------------------------\n");
 		e.printStackTrace();
-		log.severe("\n-----------------------------------------");
-		log.severe("--- Exceptions: "+exceptionCount+"/3 ----");
+		log.severe("-----------------------------------------");
+		log.severe("-------- Exceptions: "+exceptionCount+"/3 --------");
 		if(exceptionCount<3) log.severe("----------- Trying to keep up. ----------");
 		else {
 			log.severe("-- Disabling due to too many exceptions --");
 			Bukkit.getServer().getPluginManager().disablePlugin(Bukkit.getServer().getPluginManager().getPlugin("PayDay"));
 		}
+		log.severe("-----------------------------------------");
 	}
 }

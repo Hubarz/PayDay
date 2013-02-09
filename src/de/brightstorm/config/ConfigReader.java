@@ -4,16 +4,15 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import org.apache.commons.io.FileUtils;
 import org.bukkit.craftbukkit.libs.com.google.gson.Gson;
 import org.bukkit.plugin.Plugin;
 
 public class ConfigReader {
 	public ConfigReader(Plugin plugin) throws IOException {
-		File configFile= new File(plugin.getDataFolder() + System.getProperty("file.separator") + "users.yml");
+		File configFile= new File(plugin.getDataFolder() + System.getProperty("file.separator") + "config.json");
 		if(!configFile.exists()) {
 			plugin.getLogger().info("config.json not found. Creating a new one...");
-			FileUtils.copyURLToFile(getClass().getResource("config.json"), configFile);
+			new ConfigWriter(plugin).write();
 		}
 		confFile = new FileReader(configFile);
 		config = new Gson();

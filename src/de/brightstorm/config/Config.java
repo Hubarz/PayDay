@@ -26,6 +26,10 @@ public class Config {
 		message="You just got %a for being online %t minutes.";
 		paycheckMessage="Your next payday is in %t minutes.";
 		groups = new ArrayList<group>();
+		group normal = new group("normal", (short) 2, 60, 20, 5000, 0.5f);
+		group vip = new group("vip", (short) 1, 60, 50, 10000, 2.f);
+		groups.add(vip);
+		groups.add(normal);
 		worldRestriction = new ArrayList<String>();
 	}
 

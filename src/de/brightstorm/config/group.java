@@ -7,6 +7,21 @@ public class group implements Comparable<group> {
 	private double amount;
 	private double limit;
 	
+	public group() {
+		
+	}
+	
+	public group(String name, short order, int time, double amount,
+			double limit, float interest) {
+		super();
+		this.name = name;
+		this.order = order;
+		this.time = time;
+		this.amount = amount;
+		this.limit = limit;
+		this.interest = interest;
+	}
+
 	public double getLimit() {
 		return limit;
 	}
