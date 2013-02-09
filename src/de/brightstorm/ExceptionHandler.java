@@ -16,7 +16,7 @@ public class ExceptionHandler {
 		log.severe("-----------------------------------------\n");
 		e.printStackTrace();
 		log.severe("-----------------------------------------");
-		log.severe("-------- Exceptions: "+exceptionCount+"/3 --------");
+		log.severe("------------ Exceptions: "+exceptionCount+"/3 ------------");
 		if(exceptionCount<3) log.severe("----------- Trying to keep up. ----------");
 		else {
 			log.severe("-- Disabling due to too many exceptions --");

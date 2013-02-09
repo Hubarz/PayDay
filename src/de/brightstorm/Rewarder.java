@@ -2,7 +2,7 @@ package de.brightstorm;
 
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import de.brightstorm.rewarders.EssentialsInterface;
 
@@ -39,7 +39,7 @@ public abstract class Rewarder implements Runnable {
 	protected void log(PDPlayer pp, String amount) {
 		String raw = payday.conf.getMessage();
 		String temp = StringUtils.replace(raw, "%a", amount);
-		pp.getP().sendMessage(Color.BLUE+StringUtils.replace(temp, "%t", String.valueOf(pp.getGroup().getTime())));
+		pp.getP().sendMessage(ChatColor.BLUE+StringUtils.replace(temp, "%t", String.valueOf(pp.getGroup().getTime())));
 		payday.log.info(pp.getP().getName()+" got "+amount+" for being online "+String.valueOf(pp.getGroup().getTime())+" minutes.");
 	}
 	

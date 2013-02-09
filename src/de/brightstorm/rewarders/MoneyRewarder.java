@@ -27,8 +27,9 @@ public class MoneyRewarder extends Rewarder {
 	@Override
 	public void pay(PDPlayer pp) {
 		if(pp.getGroup().getLimit() >=0.D || economy.getBalance(pp.getP().getName())>pp.getGroup().getLimit()) {
-			economy.depositPlayer(pp.getP().getName(), pp.getGroup().getAmount());
-			log(pp, pp.getGroup().getAmount()+" "+economy.currencyNamePlural());
+			double amount = pp.getGroup().getAmount()+(economy.getBalance(pp.getP().getName()) / 100.0D * pp.getGroup().getInterest());
+			economy.depositPlayer(pp.getP().getName(), amount);
+			log(pp, amount+" "+economy.currencyNamePlural());
 		}
 	}
 }

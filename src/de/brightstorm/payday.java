@@ -68,6 +68,7 @@ public class payday extends JavaPlugin {
 	public void onDisable() {
 		try {
 			users.save();
+			Bukkit.getScheduler().cancelTasks(this);
 		} catch (Exception e) {
 			ExceptionHandler.report(e);
 		}

@@ -37,7 +37,7 @@ public class AdminCommandHandler implements CommandExecutor {
 		sender.sendMessage(ChatColor.RED
 				+ "/payday reset     | Deletes ALL user data!");
 		sender.sendMessage(ChatColor.RED
-				+ "/payday reload    | Reloads the config.yml");
+				+ "/payday reload    | Reloads the config.json");
 		sender.sendMessage(ChatColor.RED
 				+ "-----------------------------------------------------");
 		sender.sendMessage(ChatColor.RED

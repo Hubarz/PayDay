@@ -7,13 +7,11 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.HashMap;
-import java.util.Map;
-
 import org.bukkit.craftbukkit.libs.com.google.gson.Gson;
 import org.bukkit.plugin.Plugin;
 
 public class UserDB {
-	private Map<String, Integer> users;
+	private HashMap<String, Long> users;
 	private File file;
 	private Writer w;
 	private Reader r;
@@ -21,7 +19,7 @@ public class UserDB {
 
 	@SuppressWarnings("unchecked")
 	public UserDB(Plugin pl) throws IOException {
-		users = new HashMap<String, Integer>();
+		users = new HashMap<String, Long>();
 		file = new File(pl.getDataFolder() + System.getProperty("file.separator") + "users.json");
 		gson = new Gson();
 		if(file.exists()) {
@@ -33,24 +31,24 @@ public class UserDB {
 	}
 	
 	public void increase(String name) {
-		if(users.containsKey(name)) users.put(name, new Integer(1));
-		else users.put(name, users.get(name)+1);
+		if(users.containsKey(name)) users.put(name, new Long(1));
+		else users.put(name, new Long(users.get(name)+1));
 
 	}
 	
-	public int get(String name) {
-		if(!users.containsKey(name)) users.put(name, new Integer(1));
-		return (int)users.get(name);
+	public long get(String name) {
+		if(!users.containsKey(name)) users.put(name, new Long(1));
+		return users.get(name);
 	}
 	
 	public void reset(String name) {
-		users.put(name, 0);
+		users.put(name, new Long(0));
 	}
 	
 	public void save() throws IOException {
 		w = new FileWriter(file);
 		gson.toJson(users, users.getClass(), w);
-		w.flush();
+		w.close();
 	}
 	
 	public void reset() {
