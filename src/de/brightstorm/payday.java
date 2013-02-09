@@ -8,6 +8,8 @@ import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import de.brightstorm.CommandHandler.AdminCommandHandler;
+import de.brightstorm.CommandHandler.PlayerCommandHandler;
 import de.brightstorm.config.Config;
 import de.brightstorm.config.ConfigReader;
 import de.brightstorm.config.UserDB;
@@ -36,7 +38,7 @@ public class payday extends JavaPlugin {
 			
 			users = new UserDB(this);
 			
-			if(conf.isAutoUpdate()) updater=new Updater(this, "payday", this.getFile(), Updater.UpdateType.NO_VERSION_CHECK, true);
+			if(conf.isAutoUpdate()) updater=new Updater(this, "payday", this.getFile(), Updater.UpdateType.DEFAULT, true);
 			
 			if(conf.isMoney()) rewarder = new MoneyRewarder();
 			else rewarder = new ItemRewarder();
@@ -53,6 +55,9 @@ public class payday extends JavaPlugin {
 						}
 					} 
 			}, 5000, 5000);
+			
+			getCommand("paycheck").setExecutor(new PlayerCommandHandler());
+			getCommand("payday").setExecutor(new AdminCommandHandler());
 			
 			log.info(this.toString()+" enabled!");
 		} catch (java.lang.Exception e) {

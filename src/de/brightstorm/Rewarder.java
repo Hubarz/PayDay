@@ -16,14 +16,18 @@ public abstract class Rewarder implements Runnable {
 	public abstract void pay(PDPlayer pp);
 	
 	public void run() {
-		for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-			PDPlayer pp = new PDPlayer(p);
-			pp.findGroup();
-			if(!pp.isIgnore()) {
-				if(payday.conf.isUseEssentials()) if(!ei.isAfk(p)) check(pp);
-				else check(pp);
+		try {
+			for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+				PDPlayer pp = new PDPlayer(p);
+				pp.findGroup();
+				if(!pp.isIgnore()) {
+					if(payday.conf.isUseEssentials()) if(!ei.isAfk(p)) check(pp);
+					else check(pp);
+				}
+				payday.users.increase(pp.getP().getName());
 			}
-			payday.users.increase(pp.getP().getName());
+		} catch(Exception e) {
+			ExceptionHandler.report(e);
 		}
 	}
 
