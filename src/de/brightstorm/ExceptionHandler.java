@@ -17,11 +17,14 @@ public class ExceptionHandler {
 		e.printStackTrace();
 		log.severe("-----------------------------------------");
 		log.severe("------------ Exceptions: "+exceptionCount+"/3 ------------");
-		if(exceptionCount<3) log.severe("----------- Trying to keep up. ----------");
+		if(exceptionCount<3) {
+			log.severe("----------- Trying to keep up. ----------");
+			log.severe("-----------------------------------------");
+		}
 		else {
 			log.severe("-- Disabling due to too many exceptions --");
+			Bukkit.getScheduler().cancelTasks(Bukkit.getServer().getPluginManager().getPlugin("PayDay"));
 			Bukkit.getServer().getPluginManager().disablePlugin(Bukkit.getServer().getPluginManager().getPlugin("PayDay"));
 		}
-		log.severe("-----------------------------------------");
 	}
 }

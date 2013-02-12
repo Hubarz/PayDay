@@ -21,10 +21,10 @@ public abstract class Rewarder implements Runnable {
 				PDPlayer pp = new PDPlayer(p);
 				pp.findGroup();
 				if(!pp.isIgnore()) {
+					payday.users.increase(pp.getP().getName());
 					if(payday.conf.isUseEssentials()) if(!ei.isAfk(p)) check(pp);
 					else check(pp);
 				}
-				payday.users.increase(pp.getP().getName());
 			}
 		} catch(Exception e) {
 			ExceptionHandler.report(e);

@@ -16,7 +16,8 @@ public class PlayerCommandHandler implements CommandExecutor {
 	}
 	
 	@Override
-	public boolean onCommand(CommandSender s, Command cmd, String c, String[] arg) {
+	public boolean onCommand(CommandSender s, Command cmd, String label, String[] arg) {
+		String c = cmd.getName();
 		if(c=="paycheck" && s instanceof Player) {
 			PDPlayer pp = new PDPlayer((Player)s);
 			if(!pp.isIgnore()) {

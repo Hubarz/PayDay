@@ -5,7 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import de.brightstorm.CommandHandler.AdminCommandHandler;
@@ -13,6 +17,7 @@ import de.brightstorm.CommandHandler.PlayerCommandHandler;
 import de.brightstorm.config.Config;
 import de.brightstorm.config.ConfigReader;
 import de.brightstorm.config.UserDB;
+import de.brightstorm.config.group;
 import de.brightstorm.rewarders.ItemRewarder;
 import de.brightstorm.rewarders.MoneyRewarder;
 
@@ -58,6 +63,19 @@ public class payday extends JavaPlugin {
 			
 			getCommand("paycheck").setExecutor(new PlayerCommandHandler());
 			getCommand("payday").setExecutor(new AdminCommandHandler());
+			
+			getCommand("paydebug").setExecutor(new CommandExecutor() {
+
+				@Override
+				public boolean onCommand(CommandSender arg0, Command arg1,
+						String arg2, String[] arg3) {
+					arg0.sendMessage("Command: "+arg1.getName());
+					arg0.sendMessage(ReflectionToStringBuilder.toString(conf)+"\n");
+					for(group gr : conf.getGroups()) arg0.sendMessage(ReflectionToStringBuilder.toString(gr)+"\n");
+					return false;
+				}
+				
+			});
 			
 			log.info(this.toString()+" enabled!");
 		} catch (java.lang.Exception e) {

@@ -10,7 +10,8 @@ import de.brightstorm.payday;
 public class AdminCommandHandler implements CommandExecutor {
 
 	@Override
-	public boolean onCommand(CommandSender p, Command cmd, String c, String[] arg) {
+	public boolean onCommand(CommandSender p, Command cmd, String label, String[] arg) {
+		String c = cmd.getName();
 		if(c=="payday") {
 			if(p.hasPermission("payday.admincommand")) {
 				if(arg.length==0 || arg[0]=="help") help(p);

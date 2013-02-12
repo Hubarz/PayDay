@@ -7,4 +7,6 @@ commands:
    payday:
       permission: payday.admincommand
    paycheck:
-      description: Check time.
+      description: Check time left
+   paydebug:
+      permission: payday.debug

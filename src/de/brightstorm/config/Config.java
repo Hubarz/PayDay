@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.libs.com.google.gson.annotations.SerializedName;
 
 public class Config {
 	private boolean money;
@@ -14,6 +15,7 @@ public class Config {
 	private String message;
 	private String paycheckMessage;
 	private List<group> groups;
+	@SerializedName("restrictedWorlds")
 	private List<String> worldRestriction;
 	private String version;
 	
@@ -89,11 +91,11 @@ public class Config {
 		this.groups = groups;
 		Collections.sort(this.groups);
 	}
-
+	
 	public List<String> getWorldRestriction() {
 		return worldRestriction;
 	}
-
+	
 	public void setWorldRestriction(List<String> worldRestriction) {
 		this.worldRestriction = worldRestriction;
 	}
